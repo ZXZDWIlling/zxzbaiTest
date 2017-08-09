@@ -7,8 +7,8 @@ Oppo = dict(deviceName = '93ee2ab6', platformVersion = '5.1.1')
 Simulator_Nox = dict(deviceName = '127.0.0.1:62001', platformVersion = '4.4.2')
 
 # device = Coolpad
-# device = Oppo
-device = Simulator_Nox
+device = Oppo
+# device = Simulator_Nox
 
 
 class UiHelper:
