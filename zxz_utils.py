@@ -9,8 +9,8 @@ Huawei_H60 = dict(deviceName = 'X8QDU15C23028296', platformVersion = '4.4.2')
 
 # device = Coolpad
 # device = Oppo
-# device = Simulator_Nox
-device = Huawei_H60
+device = Simulator_Nox
+# device = Huawei_H60
 
 class UiHelper:
     def __init__(self):

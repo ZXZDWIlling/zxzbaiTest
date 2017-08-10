@@ -1,7 +1,6 @@
 from time import sleep
 from appium import webdriver
 from time import time
-from uiautomator import device as d
 import os
 import unittest
 import zxz_utils
@@ -10,9 +9,9 @@ login_cases = []
 login_cases.append(dict(phone = '', password = '', desc = '全部不输入，登录失败'))
 login_cases.append(dict(phone = '', password = '123456', desc = '不输入手机号，登录失败'))
 login_cases.append(dict(phone = '18819425652', password = '123456', desc = '没有注册过的手机号，登录失败'))
-login_cases.append(dict(phone = '10521397022', password = '', desc = '不输入密码，登录失败'))
-login_cases.append(dict(phone = '10521397022', password = '1234567', desc = '密码错误，登录失败'))
-login_cases.append(dict(phone = '10521397022', password = '123456', desc = '手机号、密码正确，登录成功'))
+login_cases.append(dict(phone = '05521397022', password = '', desc = '不输入密码，登录失败'))
+login_cases.append(dict(phone = '05521397022', password = '1234567', desc = '密码错误，登录失败'))
+login_cases.append(dict(phone = '05521397022', password = '123456', desc = '手机号、密码正确，登录成功'))
 
 class LoginTest(unittest.TestCase):
 
@@ -24,6 +23,7 @@ class LoginTest(unittest.TestCase):
     # 测试结束
     def tearDown(self):
         self.driver.quit()
+
         pass
 
     # 获取启动页 + 广告页 时间
@@ -79,10 +79,12 @@ class LoginTest(unittest.TestCase):
 
         userCenterEntry = self.driver.find_element_by_id('com.baibai.baibai:id/rb_4')
         userCenterEntry.click()
-        # userCerter = self.driver.find_element_by_id('com.baibai.baibai:id/rv_game_homepage')
 
-        # self.driver.find_element_by_android_uiautomator()
-        # a.click()
+        scrollView = self.driver.find_element_by_class_name('android.widget.ScrollView')
+        self.driver.find_element_by_android_uiautomator('new UiSelector().scrollable(true)')
+        # for dy in range(self.driver.get_window_size()['width']/2):
+        d = self.driver.get_window_size()['height']
+        self.driver.swipe(100, 0, 100, d)
         pass
 
 if __name__ == '__main__':
