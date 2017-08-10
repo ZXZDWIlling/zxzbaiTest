@@ -1,6 +1,8 @@
 from time import sleep
 from appium import webdriver
 from time import time
+from uiautomator import device as d
+import os
 import unittest
 import zxz_utils
 
@@ -25,7 +27,7 @@ class LoginTest(unittest.TestCase):
         pass
 
     # 获取启动页 + 广告页 时间
-    def test_001_SplashTime(self):
+    def atest_001_SplashTime(self):
         self.driver.wait_activity('.view.activity.common.SplashActivity', 60)
         start = time()
         self.driver.wait_activity('.view.activity.common.LoginActivity', 60)
@@ -34,7 +36,7 @@ class LoginTest(unittest.TestCase):
         pass
 
     # 执行登录参数列表
-    def test_002_LoginCase(self):
+    def atest_002_LoginCase(self):
         self.driver.wait_activity('.view.activity.common.LoginActivity', 60)
         phoneEdit = self.driver.find_element_by_id('com.baibai.baibai:id/et_account')
         passwordEdit = self.driver.find_element_by_id('com.baibai.baibai:id/et_password')
@@ -61,13 +63,26 @@ class LoginTest(unittest.TestCase):
                 pass
             # 点击‘登录’按钮
             loginButton.click()
+            pass
         pass
 
     def test_003_(self):
-        self.driver.wait_activity('.view.activity.common.GuideActivity', 60)
-        self.driver.press_keycode('4')
-        self.driver.start_activity('com.baibai.baibai', '.view.activity.common.GuideActivity')
-        sleep(10)
+        print('验证默认自动登录')
+        self.driver.wait_activity('.view.activity.MainActivity', 30)
+        self.assertEqual('.view.activity.MainActivity', self.driver.current_activity)
+
+        # print('杀死进程，再进入，能自动登录')
+        # os.system('adb shell am force-stop com.baibai.baibai')
+        # self.driver.start_activity('com.baibai.baibai', '.view.activity.common.SplashActivity')
+        # self.driver.wait_activity('.view.activity.MainActivity', 30)
+        # self.assertEqual('.view.activity.MainActivity', self.driver.current_activity)
+
+        userCenterEntry = self.driver.find_element_by_id('com.baibai.baibai:id/rb_4')
+        userCenterEntry.click()
+        # userCerter = self.driver.find_element_by_id('com.baibai.baibai:id/rv_game_homepage')
+
+        # self.driver.find_element_by_android_uiautomator()
+        # a.click()
         pass
 
 if __name__ == '__main__':

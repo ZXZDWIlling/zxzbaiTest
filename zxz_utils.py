@@ -5,11 +5,12 @@ import unittest
 Coolpad = dict(deviceName = 'Coolpad8720L-0x0da35366', platformVersion = '4.3')
 Oppo = dict(deviceName = '93ee2ab6', platformVersion = '5.1.1')
 Simulator_Nox = dict(deviceName = '127.0.0.1:62001', platformVersion = '4.4.2')
+Huawei_H60 = dict(deviceName = 'X8QDU15C23028296', platformVersion = '4.4.2')
 
 # device = Coolpad
-device = Oppo
+# device = Oppo
 # device = Simulator_Nox
-
+device = Huawei_H60
 
 class UiHelper:
     def __init__(self):
