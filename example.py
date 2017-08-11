@@ -6,21 +6,25 @@ class TestStudy(unittest.TestCase):
     def setUp(self):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = '5.1.1'
-        desired_caps['deviceName'] = '93ee2ab6'
-        desired_caps['appPackage'] = 'com.android.contacts'
-        desired_caps['appActivity'] = '.activities.PeopleActivity'
+        desired_caps['platformVersion'] = '4.4.2'
+        desired_caps['deviceName'] = '127.0.0.1:62001'
+        desired_caps['appPackage'] = 'com.baibai.baibai'
+        desired_caps['appActivity'] = '.view.activity.common.SplashActivity'
         #启动
         self.driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_caps);
         pass
 
-    def tearDown(self):
+    def atearDown(self):
         self.driver.quit()
         pass
 
     def testDemo1(self):
-        urlEdit = self.driver.find_element_by_id('com.android.contacts:id/create_contact_button')
-        urlEdit.click()
+        a = self.driver.get_window_size()['height']
+        b = self.driver.get_window_size()['width']
+        sleep(1)
+        self.driver.swipe(100, 100, 100, 400, 8000)
+        print(a)
+        print(b)
         pass
 
 if __name__ == '__main__':

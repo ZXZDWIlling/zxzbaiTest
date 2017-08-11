@@ -20,6 +20,9 @@ class UiHelper:
         self.desired_caps['deviceName'] = device['deviceName']
         self.desired_caps['appPackage'] = 'com.baibai.baibai'
         self.desired_caps['appActivity'] = '.view.activity.common.SplashActivity'
+        self.desired_caps['automationName'] = "Uiautomator2"
+        self.desired_caps["unicodeKeyboard"] = "True"
+        self.desired_caps["resetKeyboard"] = "True"
         pass
 
     def getWebDriver(self):

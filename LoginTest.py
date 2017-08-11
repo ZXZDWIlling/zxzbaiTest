@@ -1,9 +1,15 @@
 from time import sleep
 from appium import webdriver
 from time import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import WebDriverWait
 import os
 import unittest
 import zxz_utils
+
+
+
 
 login_cases = []
 login_cases.append(dict(phone = '', password = '', desc = '全部不输入，登录失败'))
@@ -77,15 +83,26 @@ class LoginTest(unittest.TestCase):
         # self.driver.wait_activity('.view.activity.MainActivity', 30)
         # self.assertEqual('.view.activity.MainActivity', self.driver.current_activity)
 
-        userCenterEntry = self.driver.find_element_by_id('com.baibai.baibai:id/rb_4')
+        userCenterEntry = self.driver.find_element_by_id('com.baibai.baibai:id/rb_5')
         userCenterEntry.click()
 
-        scrollView = self.driver.find_element_by_class_name('android.widget.ScrollView')
-        self.driver.find_element_by_android_uiautomator('new UiSelector().scrollable(true)')
+        # scrollView = self.driver.find_element_by_class_name('android.widget.ScrollView')
+        # self.driver.find_element_by_android_uiautomator('new UiSelector().scrollable(true)')
         # for dy in range(self.driver.get_window_size()['width']/2):
         d = self.driver.get_window_size()['height']
-        self.driver.swipe(100, 0, 100, d)
+        # sleep(1)
+        for i in range(3):
+            self.driver.swipe(100, 900, 100, 100, 2000)
+        self.find_toast(u'没有更多数据', 10, 0.1, self.driver)
+        # sleep(4)
         pass
+
+    def find_toast(self, message, timeout, poll_frequency, driver):
+        u'''获取toast信息文本并验证'''
+        message = "//*[@text=\'{}\']".format(message)
+        element = WebDriverWait(driver, timeout, poll_frequency).until(
+            expected_conditions.presence_of_element_located((By.XPATH, message)))
+        print(element)
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(LoginTest)
