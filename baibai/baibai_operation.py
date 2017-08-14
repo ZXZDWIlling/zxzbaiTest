@@ -29,6 +29,7 @@ class BaiBai_App:
     def exit_app(self):
         '''退出app
         执行前请确认在app首页'''
+        self.driver.wait_activity('.view.activity.MainActivity', 60)
         userCenterEntry = self.driver.find_element_by_id('com.baibai.baibai:id/rb_4')
         userCenterEntry.click()
         # 找到退出按钮
@@ -37,4 +38,18 @@ class BaiBai_App:
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(\
             (By.ID, 'com.baibai.baibai:id/sureTv')))
         self.driver.find_element_by_id('com.baibai.baibai:id/sureTv').click()
+        pass
+
+    def input_account_password(self, account, passwourd):
+        '''登录'''
+        self.driver.wait_activity('.view.activity.common.LoginActivity', 60)
+        phoneEdit = self.driver.find_element_by_id('com.baibai.baibai:id/et_account')
+        passwordEdit = self.driver.find_element_by_id('com.baibai.baibai:id/et_password')
+        loginButton = self.driver.find_element_by_id('com.baibai.baibai:id/tv_login')
+        phoneEdit.send_keys(account)
+        passwordEdit.send_keys(passwourd)
+        loginButton.click()
+        self.driver.wait_activity('.view.activity.common.GuideActivity', 30)
+        enterButton = self.driver.find_element_by_id('com.baibai.baibai:id/guide_start_tv')
+        enterButton.click()
         pass

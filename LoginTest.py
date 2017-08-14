@@ -73,6 +73,8 @@ class LoginTest(unittest.TestCase):
                 pass
             # 点击‘登录’按钮
             loginButton.click()
+            self.driver.wait_activity('.view.activity.common.GuideActivity', 30)
+            self.assertEqual(self.driver.current_activity, '.view.activity.common.GuideActivity')
             pass
         pass
 
@@ -81,7 +83,7 @@ class LoginTest(unittest.TestCase):
 
         self.driver.wait_activity('.view.activity.MainActivity', 60)
         self.assertEqual('.view.activity.MainActivity', self.driver.current_activity)
-        
+
         print('杀死进程，再进入，能自动登录', '*' * 20)
         os.system('adb shell am force-stop com.baibai.baibai')
         self.driver.start_activity('com.baibai.baibai', '.view.activity.common.SplashActivity')
