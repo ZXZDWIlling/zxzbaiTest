@@ -7,8 +7,8 @@ Simulator_Nox = dict(deviceName = '127.0.0.1:62001', platformVersion = '4.4.2')
 Huawei_H60 = dict(deviceName = 'X8QDU15C23028296', platformVersion = '4.4.2')
 
 # device = Coolpad
-device = Oppo
-# device = Simulator_Nox
+# device = Oppo
+device = Simulator_Nox
 # device = Huawei_H60
 
 class UiHelper:
@@ -113,4 +113,7 @@ class UiHelper:
                 attemp -= 1
                 self.swipeUp()
         return None
+        pass
+
+    def getScrollListItems(self, parent, son):
         pass
