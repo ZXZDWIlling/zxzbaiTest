@@ -33,7 +33,7 @@ class BaiBai_App:
         userCenterEntry = self.driver.find_element_by_id('com.baibai.baibai:id/rb_4')
         userCenterEntry.click()
         # 找到退出按钮
-        exitButton = self.helper.scrollToElementByName('退出')
+        exitButton = self.helper.scroll_to_element_by_name('退出')
         exitButton.click()
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(\
             (By.ID, 'com.baibai.baibai:id/sureTv')))

@@ -4,12 +4,13 @@ from zxz.zxz_utils import UiHelper
 from baibai.baibai_operation import BaiBai_App
 from selenium.webdriver.common.by import By
 
+
 class KingdomTest(unittest.TestCase):
-    '''拜拜王国测试'''
+    """拜拜王国测试"""
 
     def setUp(self):
         self.helper = UiHelper()
-        self.driver = self.helper.getWebDriver()
+        self.driver = self.helper.get_appium_driver()
         self.app = BaiBai_App(self.driver, self.helper)
         self.app.input_account_password('05521397022', '123456')
         pass
@@ -21,10 +22,10 @@ class KingdomTest(unittest.TestCase):
 
     def test_001_(self):
         # 进入拜拜王国
-        indexTitleBox = self.driver.find_elements_by_class_name('android.support.v7.widget.RecyclerView')
+        index_title_box = self.driver.find_elements_by_class_name('android.support.v7.widget.RecyclerView')
         # indexTitleBox = self.driver.find_elements(By.CLASS_NAME, 'android.support.v7.widget.RecyclerView')
-        kingdomEntry = indexTitleBox[1].find_elements_by_class_name('android.widget.LinearLayout')
-        kingdomEntry[0].click()
+        kingdom_entry = index_title_box[1].find_elements_by_class_name('android.widget.LinearLayout')
+        kingdom_entry[0].click()
         self.driver.wait_activity('.view.activity.game.GameHomActivity', 30)
         self.assertEqual('.view.activity.game.GameHomActivity', self.driver.current_activity)
 
@@ -33,15 +34,33 @@ class KingdomTest(unittest.TestCase):
             .find_elements_by_class_name('android.widget.LinearLayout')
         l[1].click()
         self.driver.wait_activity('.view.activity.game.GameTypeActivity', 30)
-        searchList = self.driver.find_element_by_id('com.baibai.baibai:id/rv_search_list')
+        search_list = self.driver.find_element_by_id('com.baibai.baibai:id/rv_search_list')
 
-        # while True:
-        #     prePage = self.driver.page_source
-        #     firstItem = searchList.find_elements_by_class_name('android.widget.LinearLayout')[0]
-        #     self.driver.swipe(0, 0, 0, firstItem.size['height'], 1000)
-        #     if prePage == self.driver.page_source:
+        # 处理
+        # children = search_list.find_elements_by_class_name('android.widget.LinearLayout')
+        # count = 0
+        # first_child = search_list.find_elements_by_class_name('android.widget.LinearLayout')[0]
+        # while len(children) > 0:
+        #     second_child = search_list.find_elements_by_class_name('android.widget.LinearLayout')[1]
+        #     pre_page = self.driver.page_source
+        #     # 处理第一个组件
+        #     count += 1
+        #     # 滑动第一个组件的距离
+        #     self.driver.swipe(0, 0, 0, first_child.size['height'], 1000)
+        #
+        #     children = search_list.find_elements_by_class_name('android.widget.LinearLayout')
+        #     # 判断是否已经滑动到最后，并从第二个组件开始执行操作
+        #     if pre_page == self.driver.page_source:
+        #         for i in range(1, len(children)):
+        #             count += 1
+        #         print(count)
+        #         # 完了
         #         break
-        # pass
+        #     else:
+        #         # 第一个组件已经消失了，第二个自动成为了第一个
+        #         first_child = second_child
+        #     pass
+        self.helper.run_function_in_scroll_list(search_list, None)
 
     pass
 

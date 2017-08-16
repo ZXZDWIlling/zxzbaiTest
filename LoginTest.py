@@ -23,7 +23,7 @@ class LoginTest(unittest.TestCase):
     # 初始化
     def setUp(self):
         self.helper = UiHelper()
-        self.driver = self.helper.getWebDriver()
+        self.driver = self.helper.get_appium_driver()
         pass
 
     # 测试结束
@@ -94,7 +94,7 @@ class LoginTest(unittest.TestCase):
         userCenterEntry = self.driver.find_element_by_id('com.baibai.baibai:id/rb_4')
         userCenterEntry.click()
         # 找到退出按钮
-        exitButton = self.helper.scrollToElementByName('退出')
+        exitButton = self.helper.scroll_to_element_by_name('退出')
         self.assertIsNotNone(exitButton)
 
         # 验证点击'取消',取消退出登陆
