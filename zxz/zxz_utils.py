@@ -72,7 +72,17 @@ class UiHelper:
         while True:
             ret = self.swipe_by_percentage(start_x_percent, start_y_percent, end_x_percent, end_y_percent, time)
             # print('滑动')
-            if not ret:break
+            if not ret:
+                break
+        pass
+
+    def swipe_to_top(self, time=2000, start_x_percent=1/2, start_y_percent=1/4, end_x_percent=1/2, end_y_percent=3/4):
+        """滑动到最顶部"""
+        while True:
+            ret = self.swipe_by_percentage(start_x_percent, start_y_percent, end_x_percent, end_y_percent, time)
+            # print('滑动')
+            if not ret:
+                break
         pass
 
     # 向下滑动
@@ -118,30 +128,30 @@ class UiHelper:
         return None
         pass
 
-    def run_function_in_scroll_list(self, scroll_list, class_name, method="print('scroll in the scroll_list')"):
-        children = scroll_list.find_elements_by_class_name('android.widget.LinearLayout')
-        count = 0
-        first_child = scroll_list.find_elements_by_class_name('android.widget.LinearLayout')[0]
+    def find_elements_in_scroll_list(self, scroll_list, class_name):
+        """获取滑动列表的所有元素，包括在屏幕外的"""
+        children = scroll_list.find_elements_by_class_name(class_name)
+        first_child = scroll_list.find_elements_by_class_name(class_name)[0]
+        ret = []
         while len(children) > 0:
-            second_child = scroll_list.find_elements_by_class_name('android.widget.LinearLayout')[1]
+            second_child = scroll_list.find_elements_by_class_name(class_name)[1]
             pre_page = self.driver.page_source
             # 处理第一个组件
-            count += 1
-
+            ret.append(first_child)
             # 滑动第一个组件的距离
             self.driver.swipe(0, 0, 0, first_child.size['height'], 1000)
 
-            children = scroll_list.find_elements_by_class_name('android.widget.LinearLayout')
+            children = scroll_list.find_elements_by_class_name(class_name)
             # 判断是否已经滑动到最后，并从第二个组件开始执行操作
             if pre_page == self.driver.page_source:
+                extra_height =
                 for i in range(1, len(children)):
-                    count += 1
-                print(count)
+                    ret.append(children[i])
                 # 完了
                 break
             else:
                 # 第一个组件已经消失了，第二个自动成为了第一个
                 first_child = second_child
             pass
+        return ret
 
-        pass

@@ -3,6 +3,7 @@ from appium import webdriver
 from zxz.zxz_utils import UiHelper
 from baibai.baibai_operation import BaiBai_App
 from selenium.webdriver.common.by import By
+from time import sleep
 
 
 class KingdomTest(unittest.TestCase):
@@ -12,7 +13,7 @@ class KingdomTest(unittest.TestCase):
         self.helper = UiHelper()
         self.driver = self.helper.get_appium_driver()
         self.app = BaiBai_App(self.driver, self.helper)
-        self.app.input_account_password('05521397022', '123456')
+        self.app.input_account_password('10521397022', '123456')
         pass
 
     def tearDown(self):
@@ -60,8 +61,11 @@ class KingdomTest(unittest.TestCase):
         #         # 第一个组件已经消失了，第二个自动成为了第一个
         #         first_child = second_child
         #     pass
-        self.helper.run_function_in_scroll_list(search_list, None)
-
+        start_x = search_list.location['x']
+        start_y = search_list.location['y']
+        elements = self.helper.find_elements_in_scroll_list(search_list, 'android.widget.LinearLayout')
+        print(start_x, start_y)
+        self.helper.swipe_to_top()
     pass
 
 if __name__ == '__main__':
