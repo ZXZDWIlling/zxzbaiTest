@@ -2,6 +2,7 @@ from appium import webdriver
 import unittest
 
 class TestStudy(unittest.TestCase):
+
     #初始化
     def setUp(self):
         desired_caps = {}
@@ -21,7 +22,6 @@ class TestStudy(unittest.TestCase):
     def testDemo1(self):
         a = self.driver.get_window_size()['height']
         b = self.driver.get_window_size()['width']
-        sleep(1)
         self.driver.swipe(100, 100, 100, 400, 8000)
         print(a)
         print(b)

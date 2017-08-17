@@ -1,4 +1,5 @@
 from appium import webdriver
+from time import sleep
 
 # 设备Coolpad8720L-0x0da35366
 Coolpad = dict(deviceName='Coolpad8720L-0x0da35366', platformVersion='4.3')
@@ -61,6 +62,7 @@ class UiHelper:
         pre = self.get_appium_driver().page_source
         self.get_appium_driver().swipe(width * start_x_percent, height * start_y_percent, width * end_x_percent, \
                                        height * end_y_percent, time)
+        sleep(5)
         cur = self.get_appium_driver().page_source
         # 判断滑动是否成功
         return pre != cur
@@ -76,6 +78,7 @@ class UiHelper:
                 break
         pass
 
+    # 滑动到顶部
     def swipe_to_top(self, time=2000, start_x_percent=1/2, start_y_percent=1/4, end_x_percent=1/2, end_y_percent=3/4):
         """滑动到最顶部"""
         while True:
@@ -139,12 +142,13 @@ class UiHelper:
             # 处理第一个组件
             ret.append(first_child)
             # 滑动第一个组件的距离
-            self.driver.swipe(0, 0, 0, first_child.size['height'], 1000)
+            # self.driver.swipe(0, 0, 0, first_child.size['height'], 1000)
+            self.driver.swipe(scroll_list.location['x'], second_child.location['y'],
+                              scroll_list.location['x'], scroll_list.location['y'], 1000)
 
-            children = scroll_list.find_elements_by_class_name(class_name)
             # 判断是否已经滑动到最后，并从第二个组件开始执行操作
+            children = scroll_list.find_elements_by_class_name(class_name)
             if pre_page == self.driver.page_source:
-                extra_height =
                 for i in range(1, len(children)):
                     ret.append(children[i])
                 # 完了
@@ -153,5 +157,20 @@ class UiHelper:
                 # 第一个组件已经消失了，第二个自动成为了第一个
                 first_child = second_child
             pass
+        self.swipe_to_top()
         return ret
+
+    def run(self, scroll_list, class_name):
+        ret = self.find_elements_in_scroll_list(scroll_list, class_name)
+        pre_page = self.get_appium_driver().page_source
+        cur_page = None
+        for i in range(len(ret)):
+            yield ret[i]
+            if pre_page != cur_page and i < len(ret) - 1:
+                pre_page = self.get_appium_driver().page_source
+                self.get_appium_driver().swipe(scroll_list.location['x'], ret[i + 1].location['y'],
+                                               scroll_list.location['x'], scroll_list.location['y'])
+                cur_page = self.get_appium_driver().page_source
+                pass
+        pass
 

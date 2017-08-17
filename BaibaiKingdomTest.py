@@ -13,7 +13,7 @@ class KingdomTest(unittest.TestCase):
         self.helper = UiHelper()
         self.driver = self.helper.get_appium_driver()
         self.app = BaiBai_App(self.driver, self.helper)
-        self.app.input_account_password('10521397022', '123456')
+        self.app.input_account_password('05521397022', '123456')
         pass
 
     def tearDown(self):
@@ -38,34 +38,12 @@ class KingdomTest(unittest.TestCase):
         search_list = self.driver.find_element_by_id('com.baibai.baibai:id/rv_search_list')
 
         # 处理
-        # children = search_list.find_elements_by_class_name('android.widget.LinearLayout')
-        # count = 0
-        # first_child = search_list.find_elements_by_class_name('android.widget.LinearLayout')[0]
-        # while len(children) > 0:
-        #     second_child = search_list.find_elements_by_class_name('android.widget.LinearLayout')[1]
-        #     pre_page = self.driver.page_source
-        #     # 处理第一个组件
-        #     count += 1
-        #     # 滑动第一个组件的距离
-        #     self.driver.swipe(0, 0, 0, first_child.size['height'], 1000)
-        #
-        #     children = search_list.find_elements_by_class_name('android.widget.LinearLayout')
-        #     # 判断是否已经滑动到最后，并从第二个组件开始执行操作
-        #     if pre_page == self.driver.page_source:
-        #         for i in range(1, len(children)):
-        #             count += 1
-        #         print(count)
-        #         # 完了
-        #         break
-        #     else:
-        #         # 第一个组件已经消失了，第二个自动成为了第一个
-        #         first_child = second_child
-        #     pass
-        start_x = search_list.location['x']
-        start_y = search_list.location['y']
-        elements = self.helper.find_elements_in_scroll_list(search_list, 'android.widget.LinearLayout')
-        print(start_x, start_y)
-        self.helper.swipe_to_top()
+        # elements = self.helper.find_elements_in_scroll_list(search_list, 'android.widget.LinearLayout')
+        # print(start_x, start_y)
+        for i in self.helper.run(search_list, 'android.widget.LinearLayout'):
+            i.click()
+            sleep(10)
+            self.driver.press_keycode('4')
     pass
 
 if __name__ == '__main__':
