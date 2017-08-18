@@ -131,46 +131,28 @@ class UiHelper:
         return None
         pass
 
-    def find_elements_in_scroll_list(self, scroll_list, class_name):
+    def find_each_element_in_scroll_list(self, scroll_list, class_name):
         """获取滑动列表的所有元素，包括在屏幕外的"""
         children = scroll_list.find_elements_by_class_name(class_name)
-        first_child = scroll_list.find_elements_by_class_name(class_name)[0]
-        ret = []
-        while len(children) > 0:
-            second_child = scroll_list.find_elements_by_class_name(class_name)[1]
+        # 处理第一个组件
+        yield children[0]
+        while len(children) > 1:
             pre_page = self.driver.page_source
-            # 处理第一个组件
-            ret.append(first_child)
-            # 滑动第一个组件的距离
-            # self.driver.swipe(0, 0, 0, first_child.size['height'], 1000)
+            # 处理第二个组件
+            second_child = scroll_list.find_elements_by_class_name(class_name)[1]
+            yield second_child
+            # 滑动第二个组件的距离
             self.driver.swipe(scroll_list.location['x'], second_child.location['y'],
                               scroll_list.location['x'], scroll_list.location['y'], 1000)
-
-            # 判断是否已经滑动到最后，并从第二个组件开始执行操作
+            # 判断是否已经滑动到最后，并从第三个组件开始执行操作
             children = scroll_list.find_elements_by_class_name(class_name)
-            if pre_page == self.driver.page_source:
-                for i in range(1, len(children)):
-                    ret.append(children[i])
+            if len(children) > 2 and (second_child.size['height'] > children[0].size['height'] or pre_page == self.driver.page_source):
+                for i in range(2, len(children)):
+                    yield children[i]
                 # 完了
                 break
-            else:
-                # 第一个组件已经消失了，第二个自动成为了第一个
-                first_child = second_child
             pass
+        # 回复到原来的位置
         self.swipe_to_top()
-        return ret
-
-    def run(self, scroll_list, class_name):
-        ret = self.find_elements_in_scroll_list(scroll_list, class_name)
-        pre_page = self.get_appium_driver().page_source
-        cur_page = None
-        for i in range(len(ret)):
-            yield ret[i]
-            if pre_page != cur_page and i < len(ret) - 1:
-                pre_page = self.get_appium_driver().page_source
-                self.get_appium_driver().swipe(scroll_list.location['x'], ret[i + 1].location['y'],
-                                               scroll_list.location['x'], scroll_list.location['y'])
-                cur_page = self.get_appium_driver().page_source
-                pass
         pass
 
